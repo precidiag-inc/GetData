@@ -29,3 +29,6 @@ For example, if one wanted to look up the sequencing data for this [paper](https
 they can go to the [SRA website](https://www.ncbi.nlm.nih.gov/sra), and search under `SRA` -> `Personalized Nutrition by Prediction of Glycemic Responses`.
 The SRA download page can be found under `Send results to Run selector`. Most of the time this will only contain a subset of the sample metadata, 
 so that information will need to be retrieved from either supplemental materials from the paper or from the authors directly.
+
+# Notes
+This has been tested on fastq-dump 2.8.0
