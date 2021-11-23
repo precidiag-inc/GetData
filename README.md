@@ -9,7 +9,7 @@ To install this package, first install `deblur` and `sra-tools`
 
 Then you can install this repository via
 ```
-pip install git+https://github.com/mortonjt/GetData.git
+pip install git+https://github.com/precidiag-inc/GetData.git
 ```
 
 # Retrieving and Deblurring amplicon studies on the Sequence Read Archive
