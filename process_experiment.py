@@ -287,7 +287,10 @@ def process_experiment(infile, sra_path, fasta_dir='fasta', max_test=10, skip_ge
 		logging.info('skipping getting files from sra')
 
 	# check if known region / if we need to trim primer
-	files = [f for f in os.listdir(fasta_dir) if f.endswith('.fastq')]
+	if fastq:
+		files = [f for f in os.listdir(fasta_dir) if f.endswith('.fastq')]
+	else:
+		files = [f for f in os.listdir(fasta_dir) if f.endswith('.fasta')]
 	found_it = False
 	if not skip_region:
 		if len(files) == 0:
@@ -366,6 +369,9 @@ def main(argv):
 	parser.add_argument('--skip-get', help='if set, skip getting the fasta files from SRA', action='store_true')
 	parser.add_argument('--skip-region', help='if set, skip validating/trimming region for primers (just process fasta)', action='store_true')
 	parser.add_argument('--skip-exact', help='if set, assume the sequence is not an exact region match (force primer checking)', action='store_true')
+	parser.add_argument('--fastq',
+						help='if set, download fastq instead of fasta',
+						action='store_true')
 	parser.add_argument('--max-primer-start', help='the maximal offset (from read start) for primer end', default=25, type=int)
 	parser.add_argument('--log-file', help='log file for the run', default='process_experiment.log')
 	parser.add_argument('--log-level', help='level of log file msgs (10=debug, 20=info ... 50=critical', type=int, default=20)
@@ -376,7 +382,7 @@ def main(argv):
 
 	logging.basicConfig(filename=args.log_file, filemode='w', format='%(levelname)s:%(message)s', level=args.log_level)
 	logging.debug('process_experiment started')
-	process_experiment(infile=args.input, sra_path=args.sra_path, skip_get=args.skip_get, seq_len=args.trim_length, skip_16s_check=args.skip_16s_check, skip_region=args.skip_region, deblur_path=args.deblur_path, num_threads=args.num_threads, max_primer_start=args.max_primer_start, skip_exact=args.skip_exact)
+	process_experiment(infile=args.input, sra_path=args.sra_path, skip_get=args.skip_get, seq_len=args.trim_length, skip_16s_check=args.skip_16s_check, skip_region=args.skip_region, deblur_path=args.deblur_path, num_threads=args.num_threads, max_primer_start=args.max_primer_start, skip_exact=args.skip_exact, fastq=args.fastq)
 
 
 if __name__ == "__main__":
