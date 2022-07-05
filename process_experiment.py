@@ -246,7 +246,7 @@ def test_kmer_head_region(files, base_dir=None, kmers={'v4': ['TACG'], 'v3': ['T
 	return None
 
 
-def process_experiment(infile, sra_path, fasta_dir='fasta', max_test=10, skip_get=False, seq_len=150, skip_16s_check=False, skip_region=False, deblur_path=None, num_threads=1, max_primer_start=25, skip_exact=False):
+def process_experiment(infile, sra_path, fasta_dir='fasta', max_test=10, skip_get=False, seq_len=150, skip_16s_check=False, fastq=False, skip_region=False, deblur_path=None, num_threads=1, max_primer_start=25, skip_exact=False):
 	'''download the Sra table, convert to known region, and deblur
 
 	Parameters
@@ -275,11 +275,13 @@ def process_experiment(infile, sra_path, fasta_dir='fasta', max_test=10, skip_ge
 		the maximal allowed offset for the primer within the reads (so primer does not appear in the middle of the sequence - i.e. v4 in v34)
 	skip_exact: bool, optional
 		if True, skip the exact region match test (no trimming) - assume it is not exact
+	fastq: bool, optional
+		if True, download fastq instead of fasta
 	'''
 	# get all the fasta files
 	if not skip_get:
 		logging.info('processing sratable %s' % infile)
-		num_files = get_sra.GetSRA(infile, sra_path, skipifthere=True, outdir=fasta_dir, skip_16s_check=skip_16s_check)
+		num_files = get_sra.GetSRA(infile, sra_path, skipifthere=True, outdir=fasta_dir, fastq=fastq, skip_16s_check=skip_16s_check)
 		logging.info('downloaded %d files' % num_files)
 	else:
 		logging.info('skipping getting files from sra')
