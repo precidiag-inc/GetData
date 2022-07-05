@@ -89,7 +89,7 @@ def GetSRA(inputname, path, skipifthere=False, fastq=False, delimiter=None, outd
                                 continue
 
                 print("getting file %s" % csamp)
-                params = [os.path.join(path, 'fastq-dump'), '--disable-multithreading']
+                params = [os.path.join(path, 'fastq-dump')]
                 params += ['--outdir', outdir]
                 if split_files:
                         params += ['--split-files']

@@ -285,7 +285,7 @@ def process_experiment(infile, sra_path, fasta_dir='fasta', max_test=10, skip_ge
 		logging.info('skipping getting files from sra')
 
 	# check if known region / if we need to trim primer
-	files = [f for f in os.listdir(fasta_dir) if f.endswith('.fasta')]
+	files = [f for f in os.listdir(fasta_dir) if f.endswith('.fastq')]
 	found_it = False
 	if not skip_region:
 		if len(files) == 0:
