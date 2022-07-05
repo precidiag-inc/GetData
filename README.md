@@ -1,10 +1,13 @@
 # GetData
-Get microbiome data from various repos
+Get microbiome data from various repos - altered for use with Precidiag hardware
 
 # Installation
-To install this package, first install `deblur` and `sra-tools`
+Create a new environment, and install prerequisites `deblur` and note preinstalled `sra-tools` is required
 ```
- conda install -c bioconda sra-tools deblur 
+ conda create --name GetData python=3.5 numpy
+ conda activate GetData
+ 
+ conda install -c bioconda -c biocore "VSEARCH=2.7.0" MAFFT=7.310 SortMeRNA=2.0 biom-format deblur
 ```
 
 Then you can install this repository via
@@ -20,7 +23,7 @@ Run `process_experiment.py` for the full help menu.
 See [here](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP189726&o=acc_s%3Aa) for an example of one of these tables (it can be downloaded under the Download `Metadata`) button.
 
 ```
-process_experiment.py -i SraRunTable.txt --deblur-path `which deblur` -p `dirname $(which deblur)` --num-threads 40
+process_experiment.py -i SraRunTable.txt -p /cm/shared/c3ddb/sratoolkit/2.8.0/bin  --num-threads 16
 ```
 
 # Obtaining SRA Run Tables
