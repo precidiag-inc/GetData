@@ -25,6 +25,13 @@ preinstalled binaries and only in fastq mode. See example below.
 ```
 process_experiment.py -i SraRunTable.txt -p /scratch/users/rhmills/mghpcc_precidiag/software/sratoolkit.3.0.0-centos_linux64/bin --fastq --num-threads 16
 ```
+# Running GetData using SLURM job script
+You can also run GetData using a SLURM job script. An example script is provided in RunGetData.sh.
+Users need to modify the script's directories appropriately, then run the following command.
+
+```
+sbatch RunGetData.sh
+```
 
 # Obtaining SRA Run Tables
 These tables can be obtained through using the SRA search engine.  
