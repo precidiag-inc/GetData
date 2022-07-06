@@ -2,12 +2,10 @@
 Get microbiome data from various repos - altered for use with Precidiag hardware
 
 # Installation
-Create a new environment, and install prerequisites `deblur` and note preinstalled `sra-tools` is required
+Create a new environment from requirements.txt
 ```
- conda create --name GetData python=3.5 numpy
+ conda create --name GetData --file requirements.txt
  conda activate GetData
- 
- conda install -c bioconda -c biocore "VSEARCH=2.7.0" MAFFT=7.310 SortMeRNA=2.0 biom-format deblur
 ```
 
 Then you can install this repository via
@@ -22,8 +20,10 @@ Run `process_experiment.py` for the full help menu.
 `process_experiment.py` takes as input an SRA table.  
 See [here](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP189726&o=acc_s%3Aa) for an example of one of these tables (it can be downloaded under the Download `Metadata`) button.
 
+Note you may experience errors related to your sratoolkit installation. Precidiag HPC users are encouraged to work from 
+preinstalled binaries and only in fastq mode. See example below.
 ```
-process_experiment.py -i SraRunTable.txt -p /cm/shared/c3ddb/sratoolkit/2.8.0/bin  --num-threads 16
+process_experiment.py -i SraRunTable.txt -p /scratch/users/rhmills/mghpcc_precidiag/software/sratoolkit.3.0.0-centos_linux64/bin --fastq --num-threads 16
 ```
 
 # Obtaining SRA Run Tables
@@ -33,5 +33,3 @@ they can go to the [SRA website](https://www.ncbi.nlm.nih.gov/sra), and search u
 The SRA download page can be found under `Send results to Run selector`. Most of the time this will only contain a subset of the sample metadata, 
 so that information will need to be retrieved from either supplemental materials from the paper or from the authors directly.
 
-# Notes
-This has been tested on fastq-dump 2.8.0
