@@ -2,9 +2,10 @@
 Get microbiome data from various repos - altered for use with Precidiag hardware
 
 # Installation
-Create a new environment from requirements.txt
+Create a new environment from requirements.txt & install dependency biopython
 ```
  conda create --name GetData --file requirements.txt
+ pip install biopython==1.76
  conda activate GetData
 ```
 
