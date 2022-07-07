@@ -14,6 +14,7 @@ import numpy as np
 
 import get_sra
 import get_region
+from Bio import SeqIO
 
 __version__ = "0.1"
 
@@ -65,7 +66,7 @@ def rev_comp_fasta(infile, outdir, reverse=True, complement=True):
 			ofl.write(cseq + '\n')
 
 
-def test_fasta_file(files, base_dir=None, primers={'AGAGTTTGATC[AC]TGG[CT]TCAG': 'v1', 'CCTACGGG[ACGT][CGT]GC[AT][CG]CAG': 'v3', 'GTGCCAGC[AC]GCCGCGGTAA': 'v4'}, max_start=25, min_primer_len=10, num_reads=1000, min_fraction=0.25, min_files_fraction=0.2):
+def test_fasta_file(files, base_dir=None, primers={'AGAGTTTGATC[AC]TGG[CT]TCAG': 'v1','AGAGTTTGATC[AC]TGGCTCAG':'v1_b', 'CCTACGGG[ACGT][CGT]GC[AT][CG]CAG': 'v3', 'GTGCCAGC[AC]GCCGCGGTAA': 'v4'}, max_start=25, min_primer_len=10, num_reads=1000, min_fraction=0.25, min_files_fraction=0.2):
 	'''Check if the fasta file starts with one of a given set of primers.
 
 	Parameters
@@ -281,6 +282,8 @@ def process_experiment(infile, sra_path, fasta_dir='fasta', max_test=10, skip_ge
 	# get all the fasta files
 	if not skip_get:
 		logging.info('processing sratable %s' % infile)
+		if fastq:
+			fasta_dir='fastq'
 		num_files = get_sra.GetSRA(infile, sra_path, skipifthere=True, outdir=fasta_dir, fastq=fastq, skip_16s_check=skip_16s_check)
 		logging.info('downloaded %d files' % num_files)
 	else:
@@ -288,7 +291,19 @@ def process_experiment(infile, sra_path, fasta_dir='fasta', max_test=10, skip_ge
 
 	# check if known region / if we need to trim primer
 	if fastq:
+		fasta_dir = 'fastq'
+		os.mkdir('fasta')
+		#Converting fastq to fasta as fastq currently not supported for primer trimming.
 		files = [f for f in os.listdir(fasta_dir) if f.endswith('.fastq')]
+		for i in files:
+			fq_path = os.path.join('fastq',i)
+			fasta_file=i[:-1]+'a'
+			fa_path = os.path.join('fasta',fasta_file)
+			with open(fq_path, "r") as fq, open(fa_path, "w") as fa:
+				for record in SeqIO.parse(fq, "fastq"):
+					SeqIO.write(record, fa, "fasta")
+		fasta_dir = 'fasta'
+		files = [f for f in os.listdir(fasta_dir) if f.endswith('.fasta')]
 	else:
 		files = [f for f in os.listdir(fasta_dir) if f.endswith('.fasta')]
 	found_it = False
