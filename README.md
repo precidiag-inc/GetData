@@ -1,16 +1,20 @@
 # GetData
 Get microbiome data from various repos - altered for use with Precidiag hardware
 
-# Installation
+# Installation - Precidiag HPC
 Create a new environment from requirements.txt & install dependency biopython
 ```
  conda create --name GetData --file requirements.txt
- pip install biopython==1.76
  conda activate GetData
+ pip install biopython==1.76
+ pip install git+https://github.com/precidiag-inc/GetData.git
 ```
-
-Then you can install this repository via
+# Installation - Local (MacOSX)
 ```
+conda create --name GetData python=3.5 numpy
+conda activate GetData
+conda install -c bioconda -c biocore "VSEARCH=2.7.0" MAFFT=7.310 SortMeRNA=2.0 biom-format deblur
+pip install biopython==1.76
 pip install git+https://github.com/precidiag-inc/GetData.git
 ```
 
